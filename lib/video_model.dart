@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
 class Video {
-  final String imgSrc;
+  final String thumbnail;
+  final String src;
   final String title;
   final String views;
   final String published;
@@ -10,7 +11,8 @@ class Video {
 
   const Video({
     @required this.id,
-    @required this.imgSrc,
+    @required this.thumbnail,
+    @required this.src,
     @required this.title,
     @required this.views,
     @required this.published,
@@ -20,7 +22,8 @@ class Video {
   Video withId(int id) {
     return Video(
       id: id,
-      imgSrc: imgSrc,
+      thumbnail: thumbnail,
+      src: src,
       title: title,
       views: views,
       published: published,

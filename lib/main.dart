@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:ytanim/card.dart';
 import 'package:ytanim/const.dart';
 import 'package:ytanim/custom_stack.dart';
+import 'package:ytanim/video_container.dart';
 import 'package:ytanim/video_controller.dart';
 import 'package:ytanim/video_model.dart';
 
@@ -33,7 +34,8 @@ class MyApp extends StatelessWidget {
 
 const sampleVideo = Video(
   id: 1,
-  imgSrc: 'assets/img/thumb.webp',
+  thumbnail: 'assets/img/thumb.webp',
+  src: 'assets/videos/landspace_360p.mp4',
   title: 'Samsung Galaxy S21 Ultra Review: Problems Solved!',
   published: '5 hours ago',
   views: '20.3k views',
@@ -45,7 +47,6 @@ class Homepage extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.watchVideoController;
     final hideAppBar = controller.isPlaying && !controller.isMinimized;
-    final size = controller.getSize(context.screenSize);
     return Scaffold(
       appBar: hideAppBar ? null : AppBar(title: Text('Youtube Demo')),
       body: WillPopScope(
@@ -56,39 +57,37 @@ class Homepage extends StatelessWidget {
           }
           return true;
         },
-        child: CustomStack(
-          children: [
-            IgnorePointer(
-              ignoring: hideAppBar,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        SortDropDown(),
-                        VideoCard(video: sampleVideo),
-                        VideoCard(video: sampleVideo.withId(2)),
-                        VideoCard(video: sampleVideo.withId(3)),
-                        VideoCard(video: sampleVideo.withId(4)),
-                        VideoCard(video: sampleVideo.withId(5)),
-                      ],
+        child: SafeArea(
+          child: CustomStack(
+            children: [
+              IgnorePointer(
+                ignoring: hideAppBar,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView(
+                        children: [
+                          SortDropDown(),
+                          VideoCard(video: sampleVideo),
+                          VideoCard(video: sampleVideo.withId(2)),
+                          VideoCard(video: sampleVideo.withId(3)),
+                          VideoCard(video: sampleVideo.withId(4)),
+                          VideoCard(video: sampleVideo.withId(5)),
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: controller.isMinimized ? kMiniPlayerHeight : 0),
-                ],
+                    SizedBox(height: controller.isMinimized ? kMiniPlayerHeight : 0),
+                  ],
+                ),
               ),
-            ),
-            // VideoPlayer(),
-            AnimatedPositioned(
-              bottom: -context.screenSize.height + kMiniPlayerHeight + 400,
-              duration: k1Second,
-              child: Container(
-                width: size.width,
-                height: context.screenSize.height,
-                color: Colors.red,
+              // VideoPlayer(),
+              AnimatedPositioned(
+                bottom: controller.getPosition(context.screenSize),
+                duration: k1Second ~/ 3,
+                child: VideoContainer(),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

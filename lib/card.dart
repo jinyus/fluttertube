@@ -58,7 +58,7 @@ class Thumbnail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image.asset(video.imgSrc),
+        Image.asset(video.thumbnail),
         Positioned(
           bottom: 0,
           right: 4,
