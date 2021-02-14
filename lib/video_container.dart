@@ -18,25 +18,25 @@ class VideoContainer extends StatelessWidget {
       alignment: Alignment.topCenter,
       child: controller.isMinimized
           ? MiniPlayer(video: video)
-          : Column(
-              children: [
-                if (controller.hasVideo) ...[
-                  RegularPlayer(video: video),
-                  Text(video.title),
-                  ElevatedButton.icon(
-                    label: Text('Stop'),
-                    style: ElevatedButton.styleFrom(primary: Colors.red),
-                    icon: Icon(Icons.stop),
-                    onPressed: controller.stopPlaying,
-                  ),
-                  ElevatedButton.icon(
-                    label: Text('Minimize'),
-                    icon: Icon(Icons.minimize),
-                    onPressed: controller.minimize,
-                  ),
-                ]
-              ],
-            ),
+          : controller.hasVideo
+              ? Column(
+                  children: [
+                    RegularPlayer(video: video),
+                    Text(video.title),
+                    ElevatedButton.icon(
+                      label: Text('Stop'),
+                      style: ElevatedButton.styleFrom(primary: Colors.red),
+                      icon: Icon(Icons.stop),
+                      onPressed: controller.stopPlaying,
+                    ),
+                    ElevatedButton.icon(
+                      label: Text('Minimize'),
+                      icon: Icon(Icons.minimize),
+                      onPressed: controller.minimize,
+                    ),
+                  ],
+                )
+              : kEmptyBox,
     );
   }
 }
