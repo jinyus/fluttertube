@@ -59,7 +59,7 @@ class RegularPlayer extends StatelessWidget {
         child: Container(
           constraints: BoxConstraints(maxHeight: context.screenSize.height * 0.65),
           width: double.infinity,
-          child: VideoPlayerSimple(),
+          child: VideoPlayer(),
         ),
       ),
     );
@@ -96,7 +96,7 @@ class MiniPlayer extends StatelessWidget {
               },
               child: Row(
                 children: [
-                  VideoPlayerSimple(),
+                  VideoPlayer(),
                   SizedBox(width: 4),
                   Flexible(child: Text(video.title, maxLines: 3, overflow: TextOverflow.ellipsis))
                 ],
