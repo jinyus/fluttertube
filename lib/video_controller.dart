@@ -1,8 +1,8 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertube/const.dart';
+import 'package:fluttertube/video_model.dart';
 import 'package:video_player/video_player.dart';
-import 'package:ytanim/const.dart';
-import 'package:ytanim/video_model.dart';
 
 //todo: keep last 3 videos in memory so the user can navigate back to previous videos
 

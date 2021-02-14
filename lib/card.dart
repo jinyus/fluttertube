@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ytanim/video_model.dart';
+import 'package:fluttertube/video_model.dart';
 
 import 'extensions.dart';
 

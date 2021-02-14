@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertube/card.dart';
+import 'package:fluttertube/const.dart';
+import 'package:fluttertube/custom_stack.dart';
+import 'package:fluttertube/sample_data.dart';
+import 'package:fluttertube/video_container.dart';
+import 'package:fluttertube/video_controller.dart';
 import 'package:provider/provider.dart';
-import 'package:ytanim/card.dart';
-import 'package:ytanim/const.dart';
-import 'package:ytanim/custom_stack.dart';
-import 'package:ytanim/sample_data.dart';
-import 'package:ytanim/video_container.dart';
-import 'package:ytanim/video_controller.dart';
 
 import 'extensions.dart';
 

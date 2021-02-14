@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ytanim/const.dart';
-import 'package:ytanim/video_player.dart';
+import 'package:fluttertube/const.dart';
+import 'package:fluttertube/video_player.dart';
 
 import 'extensions.dart';
 
