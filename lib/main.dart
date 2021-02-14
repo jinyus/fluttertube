@@ -36,12 +36,12 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = context.watchVideoController;
-    final hideAppBar = controller.hasVideo && !controller.isMinimized;
+    final onVideoPage = controller.hasVideo && !controller.isMinimized;
     return Scaffold(
-      appBar: hideAppBar ? null : AppBar(title: Text('Flutter Youtube')),
+      appBar: onVideoPage ? null : AppBar(title: Text('Flutter Youtube')),
       body: WillPopScope(
         onWillPop: () async {
-          if (controller.hasVideo && !controller.isMinimized) {
+          if (onVideoPage) {
             //if user presses back button when on the video page, minimize the player instead of
             //popping the route.
             controller.minimize();
@@ -60,8 +60,8 @@ class Homepage extends StatelessWidget {
                 //since the player is on top of the video list and the custom stack sends touch
                 //events to all its children, the video list would receive touch events when interacting
                 //with the video page. So this will ensure that the video list ignore touch events when
-                //the AppBar is hidden and the appbar is only hidden when the user is on the video page.
-                ignoring: hideAppBar,
+                //the user is on the video page.
+                ignoring: onVideoPage,
                 child: Column(
                   children: [
                     Expanded(
