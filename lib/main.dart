@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertube/card.dart';
 import 'package:fluttertube/const.dart';
+import 'package:fluttertube/pages/video_page/video_page.dart';
 import 'package:fluttertube/sample_data.dart';
-import 'package:fluttertube/video_container.dart';
 import 'package:fluttertube/video_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         primaryColor: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        toggleableActiveColor: Colors.lightBlue,
       ),
       home: Homepage(),
     );
@@ -66,11 +67,10 @@ class Homepage extends StatelessWidget {
                   SizedBox(height: controller.isMinimized ? kMiniPlayerHeight : 0),
                 ],
               ),
-              // VideoPlayer(),
               AnimatedPositioned(
                 bottom: controller.getPosition(context.screenSize),
                 duration: k1Second ~/ 3,
-                child: VideoContainer(),
+                child: VideoPage(),
               ),
             ],
           ),
