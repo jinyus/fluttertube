@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ytanim/const.dart';
-import 'package:ytanim/video_model.dart';
 import 'package:ytanim/video_player.dart';
 
 import 'extensions.dart';
@@ -9,72 +8,65 @@ class VideoContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = context.watchVideoController;
-    final size = context.screenSize;
-    final video = controller.nowPlaying;
-    return Container(
-      color: Colors.grey[850],
-      width: size.width,
-      height: size.height,
-      alignment: Alignment.topCenter,
-      child: controller.isMinimized
-          ? MiniPlayer(video: video)
-          : controller.hasVideo
-              ? Column(
-                  children: [
-                    RegularPlayer(video: video),
-                    Text(video.title),
-                    ElevatedButton.icon(
-                      label: Text('Stop'),
-                      style: ElevatedButton.styleFrom(primary: Colors.red),
-                      icon: Icon(Icons.stop),
-                      onPressed: controller.stopPlaying,
-                    ),
-                    ElevatedButton.icon(
-                      label: Text('Minimize'),
-                      icon: Icon(Icons.minimize),
-                      onPressed: controller.minimize,
-                    ),
-                  ],
-                )
-              : kEmptyBox,
+
+    if (!controller.hasVideo) return FullSizedContainer();
+
+    return FullSizedContainer(
+      child: controller.isMinimized ? const MiniPlayer() : const RegularPlayer(),
     );
   }
 }
 
 class RegularPlayer extends StatelessWidget {
-  final Video video;
-
-  const RegularPlayer({Key key, this.video}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Flexible(
-      child: GestureDetector(
-        onVerticalDragUpdate: (details) {
-          if (details.delta.dy > 1.0) {
-            context.readVideoController.minimize();
-          }
-          // print(details.delta);
-        },
-        child: Container(
-          constraints: BoxConstraints(maxHeight: context.screenSize.height * 0.65),
-          width: double.infinity,
-          child: VideoPlayer(),
-        ),
-      ),
-    );
-  }
-}
-
-class MiniPlayer extends StatelessWidget {
-  final Video video;
-
-  const MiniPlayer({Key key, this.video}) : super(key: key);
+  const RegularPlayer({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     //read here because the parent will rebuild when the state changes
     final controller = context.readVideoController;
+    final video = controller.nowPlaying;
+    return Column(
+      children: [
+        Flexible(
+          child: GestureDetector(
+            onVerticalDragUpdate: (details) {
+              if (details.delta.dy > 1.0) {
+                context.readVideoController.minimize();
+              }
+              // print(details.delta);
+            },
+            child: Container(
+              constraints: BoxConstraints(maxHeight: context.screenSize.height * 0.65),
+              width: double.infinity,
+              child: VideoPlayer(),
+            ),
+          ),
+        ),
+        Text(video.title),
+        ElevatedButton.icon(
+          label: Text('Stop'),
+          style: ElevatedButton.styleFrom(primary: Colors.red),
+          icon: Icon(Icons.stop),
+          onPressed: controller.stopPlaying,
+        ),
+        ElevatedButton.icon(
+          label: Text('Minimize'),
+          icon: Icon(Icons.minimize),
+          onPressed: controller.minimize,
+        ),
+      ],
+    );
+  }
+}
+
+class MiniPlayer extends StatelessWidget {
+  const MiniPlayer({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    //read here because the parent will rebuild when the state changes
+    final controller = context.readVideoController;
+    final video = controller.nowPlaying;
     return Container(
       height: kMiniPlayerHeight,
       decoration: BoxDecoration(
@@ -119,6 +111,25 @@ class MiniPlayer extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class FullSizedContainer extends StatelessWidget {
+  final Widget child;
+
+  const FullSizedContainer({Key key, this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final size = context.screenSize;
+
+    return Container(
+      color: Colors.grey[850],
+      width: size.width,
+      height: size.height,
+      alignment: Alignment.topCenter,
+      child: child,
     );
   }
 }
