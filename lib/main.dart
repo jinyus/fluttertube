@@ -42,6 +42,8 @@ class Homepage extends StatelessWidget {
       body: WillPopScope(
         onWillPop: () async {
           if (controller.hasVideo && !controller.isMinimized) {
+            //if user presses back button when on the video page, minimize the player instead of
+            //popping the route.
             controller.minimize();
             return false;
           }
@@ -70,6 +72,8 @@ class Homepage extends StatelessWidget {
                         ],
                       ),
                     ),
+                    //this is done to push up the bottom of the video list so it doesn't
+                    //receive touch events when interacting with the mini-player.
                     SizedBox(height: controller.isMinimized ? kMiniPlayerHeight : 0),
                   ],
                 ),
