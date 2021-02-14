@@ -56,21 +56,24 @@ class Thumbnail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Image.asset(video.thumbnail),
-        Positioned(
-          bottom: 0,
-          right: 4,
-          child: DecoratedBox(
-            decoration: BoxDecoration(color: Colors.black),
-            child: Padding(
-              padding: const EdgeInsets.all(2),
-              child: Text(video.duration, style: TextStyle(color: Colors.white)),
+    return AspectRatio(
+      aspectRatio: 16 / 9,
+      child: Stack(
+        children: [
+          Center(child: Image.asset(video.thumbnail)),
+          Positioned(
+            bottom: 0,
+            right: 4,
+            child: DecoratedBox(
+              decoration: BoxDecoration(color: Colors.black),
+              child: Padding(
+                padding: const EdgeInsets.all(2),
+                child: Text(video.duration, style: TextStyle(color: Colors.white)),
+              ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }
