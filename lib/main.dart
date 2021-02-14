@@ -36,21 +36,29 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = context.watchVideoController;
-    final hideAppBar = controller.isPlaying && !controller.isMinimized;
+    final hideAppBar = controller.hasVideo && !controller.isMinimized;
     return Scaffold(
       appBar: hideAppBar ? null : AppBar(title: Text('Flutter Youtube')),
       body: WillPopScope(
         onWillPop: () async {
-          if (controller.isPlaying && !controller.isMinimized) {
+          if (controller.hasVideo && !controller.isMinimized) {
             controller.minimize();
             return false;
           }
           return true;
         },
         child: SafeArea(
+          //Custom stack is used because only the top most child receives touch input
+          //with the normal stack. The custom stack sends input events to all children widgets.
+          //This is needed because The user should be able to scroll the video list and pause/stop
+          //the video on the mini-player.
           child: CustomStack(
             children: [
               IgnorePointer(
+                //since the player is on top of the video list and the custom stack sends touch
+                //events to all its children, the video list would receive touch events when interacting
+                //with the video page. So this will ensure that the video list ignore touch events when
+                //the AppBar is hidden and the appbar is only hidden when the user is on the video page.
                 ignoring: hideAppBar,
                 child: Column(
                   children: [

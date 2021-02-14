@@ -20,7 +20,7 @@ class VideoContainer extends StatelessWidget {
           ? MiniPlayer(video: video)
           : Column(
               children: [
-                if (controller.isPlaying) ...[
+                if (controller.hasVideo) ...[
                   RegularPlayer(video: video),
                   Text('(${video.id}) ${video.title}'),
                   ElevatedButton.icon(

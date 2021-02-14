@@ -21,7 +21,7 @@ class VideoController extends ChangeNotifier {
 
   Video get nowPlaying => _currentVideoPlaying;
 
-  bool get isPlaying => _currentVideoPlaying != null;
+  bool get hasVideo => _currentVideoPlaying != null;
 
   bool get isMinimized => _minimized;
 
@@ -118,7 +118,7 @@ class VideoController extends ChangeNotifier {
 
   double getPosition(Size screenSize) {
     if (_minimized) return -screenSize.height + kMiniPlayerHeight;
-    if (isPlaying) return -kStatusBarHeight;
+    if (hasVideo) return -kStatusBarHeight;
     return -screenSize.height;
   }
 }
