@@ -22,7 +22,7 @@ class VideoContainer extends StatelessWidget {
               children: [
                 if (controller.hasVideo) ...[
                   RegularPlayer(video: video),
-                  Text('(${video.id}) ${video.title}'),
+                  Text(video.title),
                   ElevatedButton.icon(
                     label: Text('Stop'),
                     style: ElevatedButton.styleFrom(primary: Colors.red),
@@ -85,7 +85,7 @@ class MiniPlayer extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(
+          Expanded(
             child: GestureDetector(
               onTap: controller.maximize,
               onVerticalDragUpdate: (details) {
@@ -94,11 +94,14 @@ class MiniPlayer extends StatelessWidget {
                 }
                 // print(details.delta);
               },
-              child: VideoPlayerSimple(),
+              child: Row(
+                children: [
+                  VideoPlayerSimple(),
+                  SizedBox(width: 4),
+                  Flexible(child: Text(video.title, maxLines: 3, overflow: TextOverflow.ellipsis))
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: Text(video.title, maxLines: 3, overflow: TextOverflow.ellipsis),
           ),
           Row(
             mainAxisSize: MainAxisSize.min,

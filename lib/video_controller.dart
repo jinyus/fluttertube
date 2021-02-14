@@ -4,6 +4,8 @@ import 'package:video_player/video_player.dart';
 import 'package:ytanim/const.dart';
 import 'package:ytanim/video_model.dart';
 
+//todo: keep last 3 videos in memory so the user can navigate back to previous videos
+
 final _iosControls = CupertinoControls(
   backgroundColor: Color.fromRGBO(41, 41, 41, 0.7),
   iconColor: Color.fromARGB(255, 200, 200, 200),
@@ -71,20 +73,17 @@ class VideoController extends ChangeNotifier {
     _miniplayerWidget = null;
     notifyListeners();
     Future.delayed(k1Second, cleanUp);
-    // cleanUp();
   }
 
   void minimize() {
     _minimized = true;
     _miniplayerPaused = !cC.first.isPlaying;
     notifyListeners();
-    // cC.first.toggleControls();
   }
 
   void maximize() {
     _minimized = false;
     notifyListeners();
-    // cC.first.toggleControls();
   }
 
   void toggleMiniPlayerPause() {

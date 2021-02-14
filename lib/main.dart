@@ -12,7 +12,7 @@ import 'extensions.dart';
 void main() {
   runApp(
     ChangeNotifierProvider(
-      create: (ctx) => VideoController(),
+      create: (_) => VideoController(),
       child: MyApp(),
     ),
   );
