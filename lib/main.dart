@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
 class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final statusBarHeight = MediaQuery.of(context).padding.top;
     final controller = context.watchVideoController;
     final onVideoPage = controller.hasVideo && !controller.isMinimized;
     return Scaffold(
@@ -68,7 +69,8 @@ class Homepage extends StatelessWidget {
                 ],
               ),
               AnimatedPositioned(
-                bottom: controller.getPosition(context.screenSize),
+                bottom:
+                    controller.getPosition(context.screenSize, statusBarHeight: statusBarHeight),
                 duration: k1Second ~/ 3,
                 child: VideoPage(),
               ),

@@ -33,11 +33,12 @@ class _FullSizedContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = context.screenSize;
-
+    //using MediaQuery.of(context).padding.top here returns 0.0
+    final barHeight = context.readVideoController.statusBarHeight;
     return Container(
       color: Colors.grey[850],
       width: size.width,
-      height: size.height,
+      height: size.height - barHeight,
       alignment: Alignment.topCenter,
       child: child,
     );

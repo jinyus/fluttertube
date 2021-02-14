@@ -17,6 +17,7 @@ class VideoController extends ChangeNotifier {
   Widget _videoWidget;
   VideoPlayer _miniplayerWidget;
   bool _miniplayerPaused = false;
+  double statusBarHeight;
 
   List<VideoPlayerController> vC = [];
   List<ChewieController> cC = [];
@@ -115,9 +116,10 @@ class VideoController extends ChangeNotifier {
     cC.clear();
   }
 
-  double getPosition(Size screenSize) {
-    if (_minimized) return -screenSize.height + kMiniPlayerHeight;
-    if (hasVideo) return -kStatusBarHeight;
+  double getPosition(Size screenSize, {double statusBarHeight}) {
+    this.statusBarHeight ??= statusBarHeight;
+    if (_minimized) return -screenSize.height + kMiniPlayerHeight + statusBarHeight;
+    if (hasVideo) return 0;
     return -screenSize.height;
   }
 }
