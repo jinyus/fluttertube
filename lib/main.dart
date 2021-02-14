@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertube/card.dart';
 import 'package:fluttertube/const.dart';
-import 'package:fluttertube/custom_stack.dart';
 import 'package:fluttertube/sample_data.dart';
 import 'package:fluttertube/video_container.dart';
 import 'package:fluttertube/video_controller.dart';
@@ -50,33 +49,22 @@ class Homepage extends StatelessWidget {
           return true;
         },
         child: SafeArea(
-          //Custom stack is used because only the top most child receives touch input
-          //with the normal stack. The custom stack sends input events to all children widgets.
-          //This is needed because The user should be able to scroll the video list and pause/stop
-          //the video on the mini-player.
-          child: CustomStack(
+          child: Stack(
             children: [
-              IgnorePointer(
-                //since the player is on top of the video list and the custom stack sends touch
-                //events to all its children, the video list would receive touch events when interacting
-                //with the video page. So this will ensure that the video list ignore touch events when
-                //the user is on the video page.
-                ignoring: onVideoPage,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: ListView(
-                        children: [
-                          SortDropDown(),
-                          ...sampleVideos.map((v) => VideoCard(video: v)).toList(),
-                        ],
-                      ),
+              Column(
+                children: [
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        SortDropDown(),
+                        ...sampleVideos.map((v) => VideoCard(video: v)).toList(),
+                      ],
                     ),
-                    //this is done to push up the bottom of the video list so it doesn't
-                    //receive touch events when interacting with the mini-player.
-                    SizedBox(height: controller.isMinimized ? kMiniPlayerHeight : 0),
-                  ],
-                ),
+                  ),
+                  //this is done to push up the bottom of the video list so the last
+                  //video can be seen.
+                  SizedBox(height: controller.isMinimized ? kMiniPlayerHeight : 0),
+                ],
               ),
               // VideoPlayer(),
               AnimatedPositioned(
