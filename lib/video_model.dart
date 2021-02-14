@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Video {
   final String thumbnail;
@@ -18,16 +18,4 @@ class Video {
     @required this.published,
     @required this.duration,
   });
-
-  Video withId(int id) {
-    return Video(
-      id: id,
-      thumbnail: thumbnail,
-      src: src,
-      title: title,
-      views: views,
-      published: published,
-      duration: duration,
-    );
-  }
 }

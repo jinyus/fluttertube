@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:ytanim/card.dart';
 import 'package:ytanim/const.dart';
 import 'package:ytanim/custom_stack.dart';
+import 'package:ytanim/sample_data.dart';
 import 'package:ytanim/video_container.dart';
 import 'package:ytanim/video_controller.dart';
-import 'package:ytanim/video_model.dart';
 
 import 'extensions.dart';
 
@@ -31,16 +31,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-const sampleVideo = Video(
-  id: 1,
-  thumbnail: 'assets/img/thumb.webp',
-  src: 'assets/videos/landspace_360p.mp4',
-  title: 'Samsung Galaxy S21 Ultra Review: Problems Solved!',
-  published: '5 hours ago',
-  views: '20.3k views',
-  duration: '1:46',
-);
 
 class Homepage extends StatelessWidget {
   @override
@@ -68,11 +58,7 @@ class Homepage extends StatelessWidget {
                       child: ListView(
                         children: [
                           SortDropDown(),
-                          VideoCard(video: sampleVideo),
-                          VideoCard(video: sampleVideo.withId(2)),
-                          VideoCard(video: sampleVideo.withId(3)),
-                          VideoCard(video: sampleVideo.withId(4)),
-                          VideoCard(video: sampleVideo.withId(5)),
+                          ...sampleVideos.map((v) => VideoCard(video: v)).toList(),
                         ],
                       ),
                     ),

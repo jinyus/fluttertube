@@ -4,10 +4,17 @@ import 'package:video_player/video_player.dart';
 import 'package:ytanim/const.dart';
 import 'package:ytanim/video_model.dart';
 
+final _iosControls = CupertinoControls(
+  backgroundColor: Color.fromRGBO(41, 41, 41, 0.7),
+  iconColor: Color.fromARGB(255, 200, 200, 200),
+);
+
 class VideoController extends ChangeNotifier {
   bool _minimized = false;
   Video _currentVideoPlaying;
-  Chewie _videoWidget;
+  Widget _videoWidget;
+  VideoPlayer _miniplayerWidget;
+  bool _miniplayerPaused = false;
 
   List<VideoPlayerController> vC = [];
   List<ChewieController> cC = [];
@@ -20,12 +27,17 @@ class VideoController extends ChangeNotifier {
 
   bool get isLoading => _videoWidget == null;
 
-  Chewie get videoWidget => _videoWidget;
+  bool get miniplayerPaused => _miniplayerPaused;
+
+  Widget get videoWidget => _minimized ? _miniplayerWidget : _videoWidget;
+
+  double get aspectRatio => vC.first.value.aspectRatio;
 
   Future<void> playVideo(Video video) async {
     _currentVideoPlaying = video;
     _minimized = false;
     _videoWidget = null;
+    _miniplayerWidget = null;
     notifyListeners();
 
     //dispose current controllers
@@ -37,8 +49,9 @@ class VideoController extends ChangeNotifier {
       videoPlayerController: v,
       autoPlay: true,
       looping: true,
-      showControls: false,
+      customControls: _iosControls,
     );
+    await c.setVolume(0);
 
     vC.add(v);
     cC.add(c);
@@ -46,6 +59,8 @@ class VideoController extends ChangeNotifier {
     _videoWidget = Chewie(
       controller: c,
     );
+
+    _miniplayerWidget = VideoPlayer(v);
     notifyListeners();
   }
 
@@ -53,6 +68,7 @@ class VideoController extends ChangeNotifier {
     _currentVideoPlaying = null;
     _minimized = false;
     _videoWidget = null;
+    _miniplayerWidget = null;
     notifyListeners();
     Future.delayed(k1Second, cleanUp);
     // cleanUp();
@@ -60,11 +76,24 @@ class VideoController extends ChangeNotifier {
 
   void minimize() {
     _minimized = true;
+    _miniplayerPaused = !cC.first.isPlaying;
     notifyListeners();
+    // cC.first.toggleControls();
   }
 
   void maximize() {
     _minimized = false;
+    notifyListeners();
+    // cC.first.toggleControls();
+  }
+
+  void toggleMiniPlayerPause() {
+    _miniplayerPaused = !_miniplayerPaused;
+    if (_miniplayerPaused) {
+      cC.first.pause();
+    } else {
+      cC.first.play();
+    }
     notifyListeners();
   }
 

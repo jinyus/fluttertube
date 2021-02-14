@@ -10,20 +10,31 @@ class VideoContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.watchVideoController;
     final size = context.screenSize;
+    final video = controller.nowPlaying;
     return Container(
       color: Colors.grey[400],
       width: size.width,
       height: size.height,
       alignment: Alignment.topCenter,
       child: controller.isMinimized
-          ? MiniPlayer(video: controller.nowPlaying)
+          ? MiniPlayer(video: video)
           : Column(
               children: [
-                if (controller.isPlaying) RegularPlayer(video: controller.nowPlaying),
-                IconButton(
-                  icon: Icon(Icons.stop),
-                  onPressed: () => context.readVideoController.stopPlaying(),
-                ),
+                if (controller.isPlaying) ...[
+                  RegularPlayer(video: video),
+                  Text('(${video.id}) ${video.title}'),
+                  ElevatedButton.icon(
+                    label: Text('Stop'),
+                    style: ElevatedButton.styleFrom(primary: Colors.red),
+                    icon: Icon(Icons.stop),
+                    onPressed: () => context.readVideoController.stopPlaying(),
+                  ),
+                  ElevatedButton.icon(
+                    label: Text('Minimize'),
+                    icon: Icon(Icons.minimize),
+                    onPressed: () => context.readVideoController.minimize(),
+                  ),
+                ]
               ],
             ),
     );
@@ -58,6 +69,8 @@ class MiniPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //read here because the parent will rebuild when the state changes
+    final controller = context.readVideoController;
     return Container(
       height: kMiniPlayerHeight,
       // color: Colors.blue,
@@ -66,14 +79,14 @@ class MiniPlayer extends StatelessWidget {
         children: [
           Flexible(
             child: GestureDetector(
-              onTap: () => context.readVideoController.maximize(),
+              onTap: controller.maximize,
               onVerticalDragUpdate: (details) {
                 if (details.delta.dy < -0.8) {
-                  context.readVideoController.maximize();
+                  controller.maximize();
                 }
                 // print(details.delta);
               },
-              child: VideoPlayerSimple() ?? Image.asset(video.thumbnail, height: kMiniPlayerHeight),
+              child: VideoPlayerSimple(),
             ),
           ),
           Expanded(
@@ -82,10 +95,12 @@ class MiniPlayer extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              IconButton(icon: Icon(Icons.pause), onPressed: null),
+              IconButton(
+                  icon: Icon(controller.miniplayerPaused ? Icons.play_arrow : Icons.pause),
+                  onPressed: controller.toggleMiniPlayerPause),
               IconButton(
                 icon: Icon(Icons.clear),
-                onPressed: () => context.readVideoController.stopPlaying(),
+                onPressed: controller.stopPlaying,
               ),
             ],
           ),

@@ -10,7 +10,7 @@ class VideoPlayerSimple extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.watchVideoController;
     return AspectRatio(
-      aspectRatio: 16 / 9,
+      aspectRatio: controller.isLoading ? 16 / 9 : controller.aspectRatio,
       child: controller.isLoading
           ? Center(child: CircularProgressIndicator())
           : controller.videoWidget,
