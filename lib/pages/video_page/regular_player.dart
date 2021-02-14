@@ -10,35 +10,33 @@ class _RegularPlayer extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Flexible(
-          child: GestureDetector(
-            onVerticalDragUpdate: (details) {
-              if (details.delta.dy > 1.0) {
-                context.readVideoController.minimize();
-              }
-              // print(details.delta);
-            },
-            child: Container(
-              constraints: BoxConstraints(maxHeight: context.screenSize.height * 0.65),
-              width: double.infinity,
-              child: VideoPlayer(),
-            ),
+        GestureDetector(
+          onVerticalDragUpdate: (details) {
+            if (details.delta.dy > 1.0) {
+              context.readVideoController.minimize();
+            }
+            // print(details.delta);
+          },
+          child: Container(
+            constraints: BoxConstraints(maxHeight: context.screenSize.height * 0.65),
+            width: double.infinity,
+            child: VideoPlayer(),
           ),
-        ),
-        _InfoBox(video),
-        _ActionBar(video),
-        Divider(),
-        Row(
-          children: [
-            Text('Up next'),
-            Spacer(),
-            Text('Autoplay'),
-            Switch(value: true, onChanged: (_) {}),
-          ],
         ),
         Expanded(
           child: ListView(
             children: [
+              _InfoBox(video),
+              _ActionBar(video),
+              Divider(),
+              Row(
+                children: [
+                  Text('Up next'),
+                  Spacer(),
+                  Text('Autoplay'),
+                  Switch(value: true, onChanged: (_) {}),
+                ],
+              ),
               ...sampleVideos.map((v) => VideoCard(video: v)).toList(),
             ],
           ),
