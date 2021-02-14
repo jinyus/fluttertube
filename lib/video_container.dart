@@ -22,8 +22,7 @@ class RegularPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //read here because the parent will rebuild when the state changes
-    final controller = context.readVideoController;
+    final controller = context.watchVideoController;
     final video = controller.nowPlaying;
     return Column(
       children: [
@@ -64,8 +63,7 @@ class MiniPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //read here because the parent will rebuild when the state changes
-    final controller = context.readVideoController;
+    final controller = context.watchVideoController;
     final video = controller.nowPlaying;
     return Container(
       height: kMiniPlayerHeight,
