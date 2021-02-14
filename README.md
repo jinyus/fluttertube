@@ -1,6 +1,6 @@
 ### FlutterTube
 
-Youtube Clone written in flutter with an emphasis on the video minimizing animation.
+Youtube Clone written in flutter with an emphasis on the video minimizing UX.
 
 Youtube            |  FlutterTube
 :-------------------------:|:-------------------------:
