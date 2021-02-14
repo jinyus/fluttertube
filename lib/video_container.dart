@@ -27,12 +27,12 @@ class VideoContainer extends StatelessWidget {
                     label: Text('Stop'),
                     style: ElevatedButton.styleFrom(primary: Colors.red),
                     icon: Icon(Icons.stop),
-                    onPressed: () => context.readVideoController.stopPlaying(),
+                    onPressed: controller.stopPlaying,
                   ),
                   ElevatedButton.icon(
                     label: Text('Minimize'),
                     icon: Icon(Icons.minimize),
-                    onPressed: () => context.readVideoController.minimize(),
+                    onPressed: controller.minimize,
                   ),
                 ]
               ],
@@ -92,14 +92,16 @@ class MiniPlayer extends StatelessWidget {
                 if (details.delta.dy < -0.8) {
                   controller.maximize();
                 }
-                // print(details.delta);
               },
-              child: Row(
-                children: [
-                  VideoPlayer(),
-                  SizedBox(width: 4),
-                  Flexible(child: Text(video.title, maxLines: 3, overflow: TextOverflow.ellipsis))
-                ],
+              child: Container(
+                color: Colors.grey[850],
+                child: Row(
+                  children: [
+                    VideoPlayer(),
+                    SizedBox(width: 4),
+                    Flexible(child: Text(video.title, maxLines: 3, overflow: TextOverflow.ellipsis))
+                  ],
+                ),
               ),
             ),
           ),
