@@ -23,7 +23,7 @@ const sampleVideos = [
     id: 3,
     thumbnail: 'assets/thumbs/boxing2.jpg',
     src: 'assets/videos/boxing2.mp4',
-    title: 'Boxing 2',
+    title: 'World Class Boxer training for the Championship title next week',
     published: '6 hours ago',
     views: '58.3k views',
     duration: '2:33',
