@@ -12,7 +12,7 @@ class VideoContainer extends StatelessWidget {
     final size = context.screenSize;
     final video = controller.nowPlaying;
     return Container(
-      color: Colors.grey[400],
+      color: Colors.grey[850],
       width: size.width,
       height: size.height,
       alignment: Alignment.topCenter,
@@ -56,7 +56,11 @@ class RegularPlayer extends StatelessWidget {
           }
           // print(details.delta);
         },
-        child: VideoPlayerSimple() ?? Image.asset(video.thumbnail),
+        child: Container(
+          constraints: BoxConstraints(maxHeight: context.screenSize.height * 0.65),
+          width: double.infinity,
+          child: VideoPlayerSimple(),
+        ),
       ),
     );
   }
@@ -73,7 +77,11 @@ class MiniPlayer extends StatelessWidget {
     final controller = context.readVideoController;
     return Container(
       height: kMiniPlayerHeight,
-      // color: Colors.blue,
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(width: .5, color: Colors.red.shade500),
+        ),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

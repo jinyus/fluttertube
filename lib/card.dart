@@ -58,21 +58,26 @@ class Thumbnail extends StatelessWidget {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 16 / 9,
-      child: Stack(
-        children: [
-          Center(child: Image.asset(video.thumbnail)),
-          Positioned(
-            bottom: 0,
-            right: 4,
-            child: DecoratedBox(
-              decoration: BoxDecoration(color: Colors.black),
-              child: Padding(
-                padding: const EdgeInsets.all(2),
-                child: Text(video.duration, style: TextStyle(color: Colors.white)),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey, width: .5),
+        ),
+        child: Stack(
+          children: [
+            Center(child: Image.asset(video.thumbnail)),
+            Positioned(
+              bottom: 0,
+              right: 4,
+              child: DecoratedBox(
+                decoration: BoxDecoration(color: Colors.black),
+                child: Padding(
+                  padding: const EdgeInsets.all(2),
+                  child: Text(video.duration, style: TextStyle(color: Colors.white)),
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

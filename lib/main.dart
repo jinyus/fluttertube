@@ -22,9 +22,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      title: 'Flutter Youtube',
+      theme: ThemeData.dark().copyWith(
+        primaryColor: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Homepage(),
@@ -38,7 +38,7 @@ class Homepage extends StatelessWidget {
     final controller = context.watchVideoController;
     final hideAppBar = controller.isPlaying && !controller.isMinimized;
     return Scaffold(
-      appBar: hideAppBar ? null : AppBar(title: Text('Youtube Demo')),
+      appBar: hideAppBar ? null : AppBar(title: Text('Flutter Youtube')),
       body: WillPopScope(
         onWillPop: () async {
           if (controller.isPlaying && !controller.isMinimized) {
