@@ -26,12 +26,15 @@ class _ActionBar extends StatelessWidget {
               Text('311'),
             ],
           ),
-          Column(
-            children: [
-              Icon(Icons.share),
-              SizedBox(height: 8),
-              Text('Share'),
-            ],
+          GestureDetector(
+            onTap: () => context.readVideoController.minimize(),
+            child: Column(
+              children: [
+                Icon(Icons.share),
+                SizedBox(height: 8),
+                Text('Share'),
+              ],
+            ),
           ),
           Column(
             children: [

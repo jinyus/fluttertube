@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertube/const.dart';
@@ -79,6 +81,8 @@ class VideoController extends ChangeNotifier {
   void minimize() {
     _minimized = true;
     _miniplayerPaused = !cC.first.isPlaying;
+    _position = null;
+    _firstOffset = null;
     notifyListeners();
   }
 
@@ -116,8 +120,42 @@ class VideoController extends ChangeNotifier {
     cC.clear();
   }
 
+  double _lastOffset;
+  double _firstOffset;
+  double _position;
+
+  void updatePosition(double offset) {
+    if (_minimized) return;
+    _firstOffset ??= offset;
+    _lastOffset = offset;
+    _position = _firstOffset - _lastOffset;
+    // print('first $_firstOffset last $offset pos $_position');
+
+    //if video is dragged 100px from the top then minimize player
+    if (_position <= -100) return minimize();
+
+    _position = min(0, _position);
+    notifyListeners();
+  }
+
+  void minimizeEnded(double velocity) {
+    //if user flicks video faster than 1000px/s then minimize
+    if (velocity > 1000) return minimize();
+
+    //video already minimized
+    if (_position == null) return;
+
+    //if video wasn't dragged far enough, cancel minimizing (should bounce back to top)
+    if (_position > -100) {
+      _position = null;
+      _firstOffset = null;
+      notifyListeners();
+    }
+  }
+
   double getPosition(Size screenSize, {double statusBarHeight}) {
     this.statusBarHeight ??= statusBarHeight;
+    if (_position != null) return _position;
     if (_minimized) return -screenSize.height + kMiniPlayerHeight + statusBarHeight;
     if (hasVideo) return 0;
     return -screenSize.height;

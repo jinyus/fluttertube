@@ -12,10 +12,16 @@ class _RegularPlayer extends StatelessWidget {
       children: [
         GestureDetector(
           onVerticalDragUpdate: (details) {
-            if (details.delta.dy > 1.0) {
-              context.readVideoController.minimize();
-            }
-            // print(details.delta);
+            context.readVideoController.updatePosition(details.globalPosition.dy);
+            // if (details.delta.dy > 1.0) {
+            //   context.readVideoController.minimize();
+            // }
+            // print(details.globalPosition.dy);
+            // print(details.localPosition);
+            // print('${details.primaryDelta}\n\n');
+          },
+          onVerticalDragEnd: (details) {
+            context.readVideoController.minimizeEnded(details.primaryVelocity);
           },
           child: Container(
             constraints: BoxConstraints(maxHeight: context.screenSize.height * 0.65),
