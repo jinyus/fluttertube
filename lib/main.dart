@@ -69,7 +69,7 @@ class Homepage extends StatelessWidget {
                 ],
               ),
               AnimatedPositioned(
-                curve: Curves.easeOutQuint,
+                curve: Curves.easeOutCirc,
                 bottom: controller.getPosition(
                   context.screenSize,
                   statusBarHeight: statusBarHeight,
