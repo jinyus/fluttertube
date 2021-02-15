@@ -69,9 +69,12 @@ class Homepage extends StatelessWidget {
                 ],
               ),
               AnimatedPositioned(
-                bottom:
-                    controller.getPosition(context.screenSize, statusBarHeight: statusBarHeight),
-                duration: k1Second ~/ 3,
+                curve: Curves.easeOutQuint,
+                bottom: controller.getPosition(
+                  context.screenSize,
+                  statusBarHeight: statusBarHeight,
+                ),
+                duration: k1Second,
                 child: VideoPage(),
               ),
             ],
