@@ -21,9 +21,10 @@ class _MiniPlayer extends StatelessWidget {
             child: GestureDetector(
               onTap: controller.maximize,
               onVerticalDragUpdate: (details) {
-                if (details.delta.dy < -0.8) {
-                  controller.maximize();
-                }
+                context.readVideoController.maximizeDragUpdate(details.globalPosition.dy);
+              },
+              onVerticalDragEnd: (details) {
+                context.readVideoController.maximizeEnded(details.primaryVelocity);
               },
               child: Container(
                 color: Colors.grey[850],

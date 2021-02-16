@@ -88,6 +88,8 @@ class VideoController extends ChangeNotifier {
 
   void maximize() {
     _minimized = false;
+    _position = null;
+    _firstOffset = null;
     notifyListeners();
   }
 
@@ -120,18 +122,39 @@ class VideoController extends ChangeNotifier {
     cC.clear();
   }
 
-  double _lastOffset;
   double _firstOffset;
   double _position;
+  double _minimizePosition;
 
-  void updatePosition(double offset) {
-    if (_minimized) return;
+  void maximizeDragUpdate(double offset) {
+    if (!_minimized) return;
+
+    //assign a starting point when user starts dragging
     _firstOffset ??= offset;
-    _lastOffset = offset;
-    _position = _firstOffset - _lastOffset;
-    // print('first $_firstOffset last $offset pos $_position');
 
-    //if video is dragged 100px from the top then minimize player
+    final addend = _firstOffset - offset;
+
+    _position = _minimizePosition + addend;
+
+    // print('base $_minimizePosition pos $_position');
+
+    //video dragged up 50px from the minimized Position, so maximize
+    if (_position - _minimizePosition >= 50) return maximize();
+
+    //make sure it's not dragged off screen
+    _position = max(_minimizePosition, _position);
+
+    notifyListeners();
+  }
+
+  void minimizeDragUpdate(double offset) {
+    if (_minimized) return;
+
+    _firstOffset ??= offset;
+
+    _position = _firstOffset - offset;
+
+    //if video is dragged 100px from the top, so minimize
     if (_position <= -100) return minimize();
 
     _position = min(0, _position);
@@ -153,10 +176,25 @@ class VideoController extends ChangeNotifier {
     }
   }
 
+  void maximizeEnded(double velocity) {
+    if (velocity > 1000) return maximize();
+
+    if (_position == null) return;
+
+    if (_position - _minimizePosition < 50) {
+      _position = null;
+      _firstOffset = null;
+      notifyListeners();
+    }
+  }
+
   double getPosition(Size screenSize, {double statusBarHeight}) {
     this.statusBarHeight ??= statusBarHeight;
     if (_position != null) return _position;
-    if (_minimized) return -screenSize.height + kMiniPlayerHeight + statusBarHeight;
+
+    _minimizePosition ??= -screenSize.height + kMiniPlayerHeight + statusBarHeight;
+
+    if (_minimized) return _minimizePosition;
     if (hasVideo) return 0;
     return -screenSize.height;
   }
