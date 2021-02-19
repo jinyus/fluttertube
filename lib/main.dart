@@ -40,6 +40,7 @@ class Homepage extends StatelessWidget {
     final onVideoPage = controller.hasVideo && !controller.isMinimized;
     return Scaffold(
       appBar: onVideoPage ? null : AppBar(title: Text('Flutter Youtube')),
+      bottomNavigationBar: onVideoPage ? null : _navBar,
       body: WillPopScope(
         onWillPop: () async {
           if (onVideoPage) {
@@ -84,6 +85,24 @@ class Homepage extends StatelessWidget {
     );
   }
 }
+
+final _navBar = BottomNavigationBar(
+  selectedItemColor: Colors.white,
+  unselectedItemColor: Colors.grey[600],
+  items: [
+    BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: 'Home'),
+    BottomNavigationBarItem(icon: Icon(Icons.explore_rounded), label: 'Explore'),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.subscriptions),
+      label: 'Subscriptions',
+    ),
+    BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notification'),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.video_collection_rounded),
+      label: 'Library',
+    ),
+  ],
+);
 
 class SortDropDown extends StatelessWidget {
   @override
